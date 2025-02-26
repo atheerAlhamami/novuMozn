@@ -49,7 +49,7 @@ export class CreateEnvironment {
       }
     }
 
-    const key = await this.generateUniqueApiKey.execute();
+    const key = process.env.NOVU_SECRET_KEY || (await this.generateUniqueApiKey.execute());
     const encryptedApiKey = encryptApiKey(key);
     const hashedApiKey = createHash('sha256').update(key).digest('hex');
     const color = this.getEnvironmentColor(command.name, command.color);
