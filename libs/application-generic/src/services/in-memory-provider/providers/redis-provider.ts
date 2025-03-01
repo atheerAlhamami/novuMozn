@@ -22,6 +22,7 @@ interface IRedisConfig {
   host?: string;
   keepAlive?: string;
   keyPrefix?: string;
+  username?: string;
   password?: string;
   port?: string;
   tls?: ConnectionOptions;
@@ -48,6 +49,7 @@ export const getRedisProviderConfig = (): IRedisProviderConfig => {
     host: convertStringValues(process.env.REDIS_HOST),
     port: convertStringValues(process.env.REDIS_PORT),
     ttl: convertStringValues(process.env.REDIS_TTL),
+    username: convertStringValues(process.env.REDIS_USER),
     password: convertStringValues(process.env.REDIS_PASSWORD),
     connectTimeout: convertStringValues(process.env.REDIS_CONNECT_TIMEOUT),
     keepAlive: convertStringValues(process.env.REDIS_KEEP_ALIVE),
@@ -59,7 +61,7 @@ export const getRedisProviderConfig = (): IRedisProviderConfig => {
   const db = redisConfig.db ? Number(redisConfig.db) : undefined;
   const port = redisConfig.port ? Number(redisConfig.port) : DEFAULT_PORT;
   const host = redisConfig.host || DEFAULT_HOST;
-  const { password } = redisConfig;
+  const { username, password } = redisConfig;
   const connectTimeout = redisConfig.connectTimeout ? Number(redisConfig.connectTimeout) : DEFAULT_CONNECT_TIMEOUT;
   const family = redisConfig.family ? Number(redisConfig.family) : DEFAULT_FAMILY;
   const keepAlive = redisConfig.keepAlive ? Number(redisConfig.keepAlive) : DEFAULT_KEEP_ALIVE;
@@ -71,6 +73,7 @@ export const getRedisProviderConfig = (): IRedisProviderConfig => {
     db,
     host,
     port,
+    username,
     password,
     connectTimeout,
     family,
